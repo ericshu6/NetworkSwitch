@@ -1,18 +1,17 @@
-name: Example workflow
+name: Build AHK Executable
+
 on: [push]
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
-          - name: Ahk2Exe
-            # You may pin to the exact commit or the version.
-            # uses: nekocodeX/GitHub-Action-Ahk2Exe@2556e30cb7e6902c002aa087ee8e43b206371a4d
-            uses: nekocodeX/GitHub-Action-Ahk2Exe@v1.1.0
-            with:
-              # The path or file name of the AutoHotKey script to compile
-              in: NetworkSwitch.ahk
-              out: NetworkSwitch.exe
-              icon: network-switch-icon.ico
-              base: Ahk2Exe.exe
-                    
+      - uses: actions/checkout@v4
+
+      - name: Compile AHK
+        uses: ./.github/actions/ahk2exe
+        with:
+          in: NetworkSwitch.ahk
+          out: build/NetworkSwitch.exe
+          icon: network-switch-icon.ico
+          base: 'v2.0.19 U64 AutoHotkey64.exe'
