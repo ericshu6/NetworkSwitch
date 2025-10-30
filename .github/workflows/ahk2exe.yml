@@ -14,4 +14,4 @@ jobs:
           in: NetworkSwitch.ahk
           out: build/NetworkSwitch.exe
           icon: network-switch-icon.ico
-          base: 'v2.0.19 U64 AutoHotkey64.exe'
+          base: './.github/actions/ahk2exe/AutoHotkeyU64.exe'
