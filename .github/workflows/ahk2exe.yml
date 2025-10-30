@@ -14,4 +14,5 @@ jobs:
               in: NetworkSwitch.ahk
               out: NetworkSwitch.exe
               icon: network-switch-icon.ico
+              base: Ahk2Exe.exe
                     
