@@ -1,0 +1,51 @@
+name: Ahk2Exe
+description: Compile AutoHotkey scripts using a local Ahk2Exe.exe in the repo root
+author: you
+
+inputs:
+  in:
+    description: Path or file name of the AutoHotkey script to compile
+    required: true
+  out:
+    description: Output executable path or file name
+    required: false
+    default: ''
+  icon:
+    description: Icon file for the executable
+    required: false
+    default: ''
+  base:
+    description: Base file to be used for compilation
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Run Ahk2Exe from repo root
+      shell: pwsh
+      run: |
+        $exePath = Join-Path (Get-Location) "Ahk2Exe.exe"
+
+        if (-Not (Test-Path $exePath)) {
+          Write-Error "Ahk2Exe.exe not found in repo root!"
+          exit 1
+        }
+
+        $command = "`"$exePath`" /silent verbose "
+
+        if ('${{ inputs.in }}' -ne '') {
+          $command += "/in `"${{ inputs.in }}`" "
+        }
+        if ('${{ inputs.out }}' -ne '') {
+          $command += "/out `"${{ inputs.out }}`" "
+        }
+        if ('${{ inputs.icon }}' -ne '') {
+          $command += "/icon `"${{ inputs.icon }}`" "
+        }
+        if ('${{ inputs.base }}' -ne '') {
+          $command += "/base `"${{ inputs.base }}`" "
+        }
+
+        Write-Host "Running: $command"
+        Invoke-Expression $command
